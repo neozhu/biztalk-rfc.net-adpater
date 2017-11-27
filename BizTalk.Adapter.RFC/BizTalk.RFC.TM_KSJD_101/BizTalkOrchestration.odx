@@ -1,0 +1,196 @@
+﻿#if __DESIGNER_DATA
+#error Do not define __DESIGNER_DATA.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<om:MetaModel MajorVersion="1" MinorVersion="3" Core="2b131234-7959-458d-834f-2dc0769ce683" ScheduleModel="66366196-361d-448d-976f-cab5e87496d2" xmlns:om="http://schemas.microsoft.com/BizTalk/2003/DesignerData">
+    <om:Element Type="Module" OID="3999da74-1ecf-4860-a1ba-d2ae87d26819" LowerBound="1.1" HigherBound="40.1">
+        <om:Property Name="ReportToAnalyst" Value="True" />
+        <om:Property Name="Name" Value="BizTalk.RFC.TM_KSJD_101" />
+        <om:Property Name="Signal" Value="False" />
+        <om:Element Type="PortType" OID="3c65534a-f1e0-40ea-8568-00910846ec41" ParentLink="Module_PortType" LowerBound="4.1" HigherBound="11.1">
+            <om:Property Name="Synchronous" Value="True" />
+            <om:Property Name="TypeModifier" Value="Public" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_Z2FM_QO_FWA" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="caff0b7a-5415-43ba-89a1-2b7242ce0739" ParentLink="PortType_OperationDeclaration" LowerBound="6.1" HigherBound="10.1">
+                <om:Property Name="OperationType" Value="RequestResponse" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Exec" />
+                <om:Property Name="Signal" Value="True" />
+                <om:Element Type="MessageRef" OID="8aab4f4d-0090-46e3-ad52-d46f41570b83" ParentLink="OperationDeclaration_RequestMessageRef" LowerBound="8.13" HigherBound="8.38">
+                    <om:Property Name="Ref" Value="BizTalk.RFC.TM_KSJD_101.Schemas.INPUT.Z2FM_QO_FWA" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="MessageRef" OID="3cd23a84-caeb-49dd-975e-8090bddef3a9" ParentLink="OperationDeclaration_ResponseMessageRef" LowerBound="8.40" HigherBound="8.70">
+                    <om:Property Name="Ref" Value="BizTalk.RFC.TM_KSJD_101.Schemas.OUTPUT.Z2FM_QO_FWA_RES" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Response" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="PortType" OID="e6704d5d-ea26-413d-834c-b5930e31eeb3" ParentLink="Module_PortType" LowerBound="11.1" HigherBound="18.1">
+            <om:Property Name="Synchronous" Value="True" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_CALLRFCZ2FM_QO_FWA" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="4265ef93-43ac-4c96-bfa5-6932045581e6" ParentLink="PortType_OperationDeclaration" LowerBound="13.1" HigherBound="17.1">
+                <om:Property Name="OperationType" Value="RequestResponse" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_1" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="e71834fb-7686-473c-92f9-cf2046f1a992" ParentLink="OperationDeclaration_RequestMessageRef" LowerBound="15.13" HigherBound="15.38">
+                    <om:Property Name="Ref" Value="BizTalk.RFC.TM_KSJD_101.Schemas.INPUT.Z2FM_QO_FWA" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="MessageRef" OID="ddb54776-92ba-4e2b-901b-55973bd149f7" ParentLink="OperationDeclaration_ResponseMessageRef" LowerBound="15.40" HigherBound="15.70">
+                    <om:Property Name="Ref" Value="BizTalk.RFC.TM_KSJD_101.Schemas.OUTPUT.Z2FM_QO_FWA_RES" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Response" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="ServiceDeclaration" OID="1c994a62-6c21-4cdd-8800-3d85ece2c659" ParentLink="Module_ServiceDeclaration" LowerBound="18.1" HigherBound="39.1">
+            <om:Property Name="InitializedTransactionType" Value="False" />
+            <om:Property Name="IsInvokable" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="BizTalkOrchestration" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="ServiceBody" OID="cd8cbff7-db7b-46e3-803d-e9b5382b8f8f" ParentLink="ServiceDeclaration_ServiceBody">
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="Receive" OID="cfb94c13-853d-4a62-b950-c2271eee1b80" ParentLink="ServiceBody_Statement" LowerBound="29.1" HigherBound="31.1">
+                    <om:Property Name="Activate" Value="True" />
+                    <om:Property Name="PortName" Value="Inbound" />
+                    <om:Property Name="MessageName" Value="Input" />
+                    <om:Property Name="OperationName" Value="Exec" />
+                    <om:Property Name="OperationMessageName" Value="Request" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Receive_1" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Send" OID="e23de4cc-baab-48a7-8825-2fb34bc796da" ParentLink="ServiceBody_Statement" LowerBound="31.1" HigherBound="33.1">
+                    <om:Property Name="PortName" Value="CALLRFCZ2FM_QO_FWA" />
+                    <om:Property Name="MessageName" Value="Input" />
+                    <om:Property Name="OperationName" Value="Operation_1" />
+                    <om:Property Name="OperationMessageName" Value="Request" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Send_1" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Receive" OID="456a681d-3a97-469f-b1af-2896294ec089" ParentLink="ServiceBody_Statement" LowerBound="33.1" HigherBound="35.1">
+                    <om:Property Name="Activate" Value="False" />
+                    <om:Property Name="PortName" Value="CALLRFCZ2FM_QO_FWA" />
+                    <om:Property Name="MessageName" Value="Output" />
+                    <om:Property Name="OperationName" Value="Operation_1" />
+                    <om:Property Name="OperationMessageName" Value="Response" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Receive_2" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Send" OID="aa3c1e30-59a8-43fb-a951-9be1ca6f3061" ParentLink="ServiceBody_Statement" LowerBound="35.1" HigherBound="37.1">
+                    <om:Property Name="PortName" Value="Inbound" />
+                    <om:Property Name="MessageName" Value="Output" />
+                    <om:Property Name="OperationName" Value="Exec" />
+                    <om:Property Name="OperationMessageName" Value="Response" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Send_2" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="5713cdc5-0e5d-4e2c-8db5-88b38570129a" ParentLink="ServiceDeclaration_PortDeclaration" LowerBound="21.1" HigherBound="23.1">
+                <om:Property Name="PortModifier" Value="Uses" />
+                <om:Property Name="Orientation" Value="Right" />
+                <om:Property Name="PortIndex" Value="-1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="BizTalk.RFC.TM_KSJD_101.PortType_CALLRFCZ2FM_QO_FWA" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="CALLRFCZ2FM_QO_FWA" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="7143eab6-f3e2-4f8d-aac5-d2f66dd1cd06" ParentLink="PortDeclaration_CLRAttribute" LowerBound="21.1" HigherBound="22.1">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="60f984dc-d5fd-4bd7-bb59-67f1ad5432be" ParentLink="ServiceDeclaration_PortDeclaration" LowerBound="23.1" HigherBound="25.1">
+                <om:Property Name="PortModifier" Value="Implements" />
+                <om:Property Name="Orientation" Value="Left" />
+                <om:Property Name="PortIndex" Value="-1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="BizTalk.RFC.TM_KSJD_101.PortType_Z2FM_QO_FWA" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Inbound" />
+                <om:Property Name="Signal" Value="True" />
+                <om:Element Type="LogicalBindingAttribute" OID="8fd97252-698b-41e9-806c-73ae0a3907e5" ParentLink="PortDeclaration_CLRAttribute" LowerBound="23.1" HigherBound="24.1">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="f2a88073-ff4c-4fad-be29-9115227e61c3" ParentLink="ServiceDeclaration_MessageDeclaration" LowerBound="25.1" HigherBound="26.1">
+                <om:Property Name="Type" Value="BizTalk.RFC.TM_KSJD_101.Schemas.INPUT.Z2FM_QO_FWA" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Input" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="7afb2715-eaa1-40ef-a4f2-bd2b36f9cdf7" ParentLink="ServiceDeclaration_MessageDeclaration" LowerBound="26.1" HigherBound="27.1">
+                <om:Property Name="Type" Value="BizTalk.RFC.TM_KSJD_101.Schemas.OUTPUT.Z2FM_QO_FWA_RES" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Output" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+        </om:Element>
+    </om:Element>
+</om:MetaModel>
+#endif // __DESIGNER_DATA
+[Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+module BizTalk.RFC.TM_KSJD_101
+{
+    public porttype PortType_Z2FM_QO_FWA
+    {
+        requestresponse Exec
+        {
+            Schemas.INPUT.Z2FM_QO_FWA, Schemas.OUTPUT.Z2FM_QO_FWA_RES
+        };
+    };
+    internal porttype PortType_CALLRFCZ2FM_QO_FWA
+    {
+        requestresponse Operation_1
+        {
+            Schemas.INPUT.Z2FM_QO_FWA, Schemas.OUTPUT.Z2FM_QO_FWA_RES
+        };
+    };
+    [Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+    internal service BizTalkOrchestration
+    {
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port uses PortType_CALLRFCZ2FM_QO_FWA CALLRFCZ2FM_QO_FWA;
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port implements PortType_Z2FM_QO_FWA Inbound;
+        message Schemas.INPUT.Z2FM_QO_FWA Input;
+        message Schemas.OUTPUT.Z2FM_QO_FWA_RES Output;
+        body ()
+        {
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("cfb94c13-853d-4a62-b950-c2271eee1b80")]
+            activate receive (Inbound.Exec, Input);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("e23de4cc-baab-48a7-8825-2fb34bc796da")]
+            send (CALLRFCZ2FM_QO_FWA.Operation_1, Input);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("456a681d-3a97-469f-b1af-2896294ec089")]
+            receive (CALLRFCZ2FM_QO_FWA.Operation_1, Output);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("aa3c1e30-59a8-43fb-a951-9be1ca6f3061")]
+            send (Inbound.Exec, Output);
+        }
+    }
+}
+

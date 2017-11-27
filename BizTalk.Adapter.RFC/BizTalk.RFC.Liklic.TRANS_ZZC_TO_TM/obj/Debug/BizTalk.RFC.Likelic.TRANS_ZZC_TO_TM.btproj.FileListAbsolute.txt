@@ -1,0 +1,6 @@
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Liklic.TRANS_ZZC_TO_TM\bin\Debug\BizTalk.RFC.Likelic.TRANS_ZZC_TO_TM.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Liklic.TRANS_ZZC_TO_TM\bin\Debug\BizTalk.RFC.Likelic.TRANS_ZZC_TO_TM.pdb
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Liklic.TRANS_ZZC_TO_TM\obj\Debug\BizTalk.RFC.Likelic.TRANS_ZZC_TO_TM.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Liklic.TRANS_ZZC_TO_TM\obj\Debug\BizTalk.RFC.Likelic.TRANS_ZZC_TO_TM.pdb
+D:\Build\APP\RFC\BizTalk.RFC.Likelic.TRANS_ZZC_TO_TM.dll
+D:\Build\APP\RFC\BizTalk.RFC.Likelic.TRANS_ZZC_TO_TM.pdb

@@ -1,0 +1,4 @@
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Schemas\bin\Debug\BizTalk.RFC.Schemas.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Schemas\bin\Debug\BizTalk.RFC.Schemas.pdb
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Schemas\obj\Debug\BizTalk.RFC.Schemas.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Schemas\obj\Debug\BizTalk.RFC.Schemas.pdb

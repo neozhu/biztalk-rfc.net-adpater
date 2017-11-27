@@ -1,0 +1,6 @@
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD\bin\Debug\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD\bin\Debug\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.pdb
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD\obj\Debug\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD\obj\Debug\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.pdb
+D:\Build\APP\RFC\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.dll
+D:\Build\APP\RFC\BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.pdb

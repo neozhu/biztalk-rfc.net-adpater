@@ -1,0 +1,196 @@
+﻿#if __DESIGNER_DATA
+#error Do not define __DESIGNER_DATA.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<om:MetaModel MajorVersion="1" MinorVersion="3" Core="2b131234-7959-458d-834f-2dc0769ce683" ScheduleModel="66366196-361d-448d-976f-cab5e87496d2" xmlns:om="http://schemas.microsoft.com/BizTalk/2003/DesignerData">
+    <om:Element Type="Module" OID="18d0b179-915f-4fa1-8adb-25423eec7e00" LowerBound="1.1" HigherBound="40.1">
+        <om:Property Name="ReportToAnalyst" Value="True" />
+        <om:Property Name="Name" Value="BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD" />
+        <om:Property Name="Signal" Value="False" />
+        <om:Element Type="PortType" OID="131238e6-ee04-4745-8bbf-2f3505c99d83" ParentLink="Module_PortType" LowerBound="4.1" HigherBound="11.1">
+            <om:Property Name="Synchronous" Value="True" />
+            <om:Property Name="TypeModifier" Value="Public" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_Inbound" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="18391237-1eaf-4448-8809-1227228339d8" ParentLink="PortType_OperationDeclaration" LowerBound="6.1" HigherBound="10.1">
+                <om:Property Name="OperationType" Value="RequestResponse" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Exec" />
+                <om:Property Name="Signal" Value="True" />
+                <om:Element Type="MessageRef" OID="50dbf2d8-0429-41e9-b998-141650dc5e89" ParentLink="OperationDeclaration_RequestMessageRef" LowerBound="8.13" HigherBound="8.54">
+                    <om:Property Name="Ref" Value="BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.Schemas.INPUT.Z1_RFC_THM_RETURN_TM_EVTUPD" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+                <om:Element Type="MessageRef" OID="47f155a3-0f51-4409-9034-56132fec3070" ParentLink="OperationDeclaration_ResponseMessageRef" LowerBound="8.56" HigherBound="8.102">
+                    <om:Property Name="Ref" Value="BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.Schemas.OUTPUT.Z1_RFC_THM_RETURN_TM_EVTUPD_RES" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Response" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="PortType" OID="f88d4175-9ccd-4c81-ba30-73d9ba1d45f5" ParentLink="Module_PortType" LowerBound="11.1" HigherBound="18.1">
+            <om:Property Name="Synchronous" Value="True" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_Z1_RFC_THM_RETURN_TM_EVTUPD" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="cd1aafe5-2dd4-43c5-876f-0ad0e4e929bf" ParentLink="PortType_OperationDeclaration" LowerBound="13.1" HigherBound="17.1">
+                <om:Property Name="OperationType" Value="RequestResponse" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_1" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="3a78d3ce-aece-478a-b509-2025549095a3" ParentLink="OperationDeclaration_RequestMessageRef" LowerBound="15.13" HigherBound="15.54">
+                    <om:Property Name="Ref" Value="BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.Schemas.INPUT.Z1_RFC_THM_RETURN_TM_EVTUPD" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+                <om:Element Type="MessageRef" OID="1ede42d4-a493-40fe-a696-500359e8b84c" ParentLink="OperationDeclaration_ResponseMessageRef" LowerBound="15.56" HigherBound="15.102">
+                    <om:Property Name="Ref" Value="BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.Schemas.OUTPUT.Z1_RFC_THM_RETURN_TM_EVTUPD_RES" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Response" />
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="ServiceDeclaration" OID="050021d2-8eba-4cdc-ab73-8e2fde5073b8" ParentLink="Module_ServiceDeclaration" LowerBound="18.1" HigherBound="39.1">
+            <om:Property Name="InitializedTransactionType" Value="False" />
+            <om:Property Name="IsInvokable" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="Orchestration" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="ServiceBody" OID="d83b93f5-6724-40f7-8b84-89cd3294e375" ParentLink="ServiceDeclaration_ServiceBody">
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="Receive" OID="2e97a6ee-286a-4eec-8a20-f17fbd1d46b8" ParentLink="ServiceBody_Statement" LowerBound="29.1" HigherBound="31.1">
+                    <om:Property Name="Activate" Value="True" />
+                    <om:Property Name="PortName" Value="Inbound" />
+                    <om:Property Name="MessageName" Value="Input" />
+                    <om:Property Name="OperationName" Value="Exec" />
+                    <om:Property Name="OperationMessageName" Value="Request" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Receive_1" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Send" OID="b1e52b6c-2b1d-491c-8c76-e6b261b46b77" ParentLink="ServiceBody_Statement" LowerBound="31.1" HigherBound="33.1">
+                    <om:Property Name="PortName" Value="SendZ1_RFC_THM_RETURN_TM_EVTUPD" />
+                    <om:Property Name="MessageName" Value="Input" />
+                    <om:Property Name="OperationName" Value="Operation_1" />
+                    <om:Property Name="OperationMessageName" Value="Request" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Send_1" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Receive" OID="7f3d4844-f7ee-4f87-a5e8-988afa811d4d" ParentLink="ServiceBody_Statement" LowerBound="33.1" HigherBound="35.1">
+                    <om:Property Name="Activate" Value="False" />
+                    <om:Property Name="PortName" Value="SendZ1_RFC_THM_RETURN_TM_EVTUPD" />
+                    <om:Property Name="MessageName" Value="Output" />
+                    <om:Property Name="OperationName" Value="Operation_1" />
+                    <om:Property Name="OperationMessageName" Value="Response" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Receive_2" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Send" OID="8700294d-fe95-41ef-97ce-a8cb65d4e0bb" ParentLink="ServiceBody_Statement" LowerBound="35.1" HigherBound="37.1">
+                    <om:Property Name="PortName" Value="Inbound" />
+                    <om:Property Name="MessageName" Value="Output" />
+                    <om:Property Name="OperationName" Value="Exec" />
+                    <om:Property Name="OperationMessageName" Value="Response" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Send_2" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="02b1e9ac-2c1d-4b6d-93a7-8810d0606968" ParentLink="ServiceDeclaration_PortDeclaration" LowerBound="21.1" HigherBound="23.1">
+                <om:Property Name="PortModifier" Value="Implements" />
+                <om:Property Name="Orientation" Value="Left" />
+                <om:Property Name="PortIndex" Value="-1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.PortType_Inbound" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Inbound" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="1635c7b8-26e9-4cb6-a88d-32beaefb4623" ParentLink="PortDeclaration_CLRAttribute" LowerBound="21.1" HigherBound="22.1">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="9ada468e-2091-42ed-99df-ef8584940727" ParentLink="ServiceDeclaration_PortDeclaration" LowerBound="23.1" HigherBound="25.1">
+                <om:Property Name="PortModifier" Value="Uses" />
+                <om:Property Name="Orientation" Value="Right" />
+                <om:Property Name="PortIndex" Value="-1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.PortType_Z1_RFC_THM_RETURN_TM_EVTUPD" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="SendZ1_RFC_THM_RETURN_TM_EVTUPD" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="a2709114-ff14-4586-a82e-865d309c4f12" ParentLink="PortDeclaration_CLRAttribute" LowerBound="23.1" HigherBound="24.1">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="9f1effca-2dea-456c-b01f-fe017b7e088c" ParentLink="ServiceDeclaration_MessageDeclaration" LowerBound="25.1" HigherBound="26.1">
+                <om:Property Name="Type" Value="BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.Schemas.INPUT.Z1_RFC_THM_RETURN_TM_EVTUPD" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Input" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="e47d99c2-699d-4740-96fe-2647e4cedc55" ParentLink="ServiceDeclaration_MessageDeclaration" LowerBound="26.1" HigherBound="27.1">
+                <om:Property Name="Type" Value="BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD.Schemas.OUTPUT.Z1_RFC_THM_RETURN_TM_EVTUPD_RES" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Output" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+        </om:Element>
+    </om:Element>
+</om:MetaModel>
+#endif // __DESIGNER_DATA
+[Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+module BizTalk.RFC.Likelic.THM_RETURN_TM_EVTUPD
+{
+    public porttype PortType_Inbound
+    {
+        requestresponse Exec
+        {
+            Schemas.INPUT.Z1_RFC_THM_RETURN_TM_EVTUPD, Schemas.OUTPUT.Z1_RFC_THM_RETURN_TM_EVTUPD_RES
+        };
+    };
+    internal porttype PortType_Z1_RFC_THM_RETURN_TM_EVTUPD
+    {
+        requestresponse Operation_1
+        {
+            Schemas.INPUT.Z1_RFC_THM_RETURN_TM_EVTUPD, Schemas.OUTPUT.Z1_RFC_THM_RETURN_TM_EVTUPD_RES
+        };
+    };
+    [Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+    internal service Orchestration
+    {
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port implements PortType_Inbound Inbound;
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port uses PortType_Z1_RFC_THM_RETURN_TM_EVTUPD SendZ1_RFC_THM_RETURN_TM_EVTUPD;
+        message Schemas.INPUT.Z1_RFC_THM_RETURN_TM_EVTUPD Input;
+        message Schemas.OUTPUT.Z1_RFC_THM_RETURN_TM_EVTUPD_RES Output;
+        body ()
+        {
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("2e97a6ee-286a-4eec-8a20-f17fbd1d46b8")]
+            activate receive (Inbound.Exec, Input);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("b1e52b6c-2b1d-491c-8c76-e6b261b46b77")]
+            send (SendZ1_RFC_THM_RETURN_TM_EVTUPD.Operation_1, Input);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("7f3d4844-f7ee-4f87-a5e8-988afa811d4d")]
+            receive (SendZ1_RFC_THM_RETURN_TM_EVTUPD.Operation_1, Output);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("8700294d-fe95-41ef-97ce-a8cb65d4e0bb")]
+            send (Inbound.Exec, Output);
+        }
+    }
+}
+

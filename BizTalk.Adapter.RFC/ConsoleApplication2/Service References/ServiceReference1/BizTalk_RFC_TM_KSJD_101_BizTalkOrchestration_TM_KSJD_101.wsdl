@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s1="http://BizTalk.RFC.Schemas.INPUT.Z2FM_QO_FWA" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://BizTalk.RFC.Schemas.OUTPUT.Z2FM_QO_FWA" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BizTalk assembly "BizTalk.RFC.TM_KSJD_101, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1ad1fc3ac7b6ce05" published web service.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://BizTalk.RFC.Schemas.INPUT.Z2FM_QO_FWA" />
+      <s:import namespace="http://BizTalk.RFC.Schemas.OUTPUT.Z2FM_QO_FWA" />
+      <s:element name="CALLZ2FM_QO_FWA">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:Z2FM_QO_FWA" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CALLZ2FM_QO_FWAResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s2:Z2FM_QO_FWA_RES" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://BizTalk.RFC.Schemas.INPUT.Z2FM_QO_FWA">
+      <s:element name="Z2FM_QO_FWA">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MAXIMUM_ROWS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="unbounded" name="SELECT_OPTIONS">
+              <s:complexType>
+                <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="ATTRIBUTE_NAME" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="SIGN" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="OPTION" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="LOW" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="HIGH" type="s:string" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://BizTalk.RFC.Schemas.OUTPUT.Z2FM_QO_FWA">
+      <s:element name="Z2FM_QO_FWA_RES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="unbounded" name="OUTPUT">
+              <s:complexType>
+                <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="DB_KEY" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="FAGRMNTID044" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="FAGRMNTID045" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="MNEMONIC" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="CREATED_BY" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="CREATED_ON" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="CHANGED_BY" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="CHANGED_ON" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="FAGCATEID111" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="1" name="FAGTYPEID103" type="s:string" />
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="T_BP">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="DB_KEY" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="PARENT_KEY" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="PTY_RCO012_I" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="PTYINTID_ID133_I" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="UUID001" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="PARTY_NAME" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="T_ORG">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="DB_KEY" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="PARENT_KEY" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="ORG_UNIT" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="ORG_EXT_ID" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="PARTY_NAME" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                  <s:element minOccurs="0" maxOccurs="unbounded" name="T_ITEM">
+                    <s:complexType>
+                      <s:sequence>
+                        <s:element minOccurs="0" maxOccurs="1" name="DB_KEY" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="PARENT_KEY" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="ITEM_NO" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="MNEMONIC" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="ITEM_TYPE" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="VALIDITY_START" type="s:string" />
+                        <s:element minOccurs="0" maxOccurs="1" name="VALIDITY_END" type="s:string" />
+                      </s:sequence>
+                    </s:complexType>
+                  </s:element>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CALLZ2FM_QO_FWASoapIn">
+    <wsdl:part name="parameters" element="tns:CALLZ2FM_QO_FWA" />
+  </wsdl:message>
+  <wsdl:message name="CALLZ2FM_QO_FWASoapOut">
+    <wsdl:part name="parameters" element="tns:CALLZ2FM_QO_FWAResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101Soap">
+    <wsdl:operation name="CALLZ2FM_QO_FWA">
+      <wsdl:input message="tns:CALLZ2FM_QO_FWASoapIn" />
+      <wsdl:output message="tns:CALLZ2FM_QO_FWASoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101Soap" type="tns:BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CALLZ2FM_QO_FWA">
+      <soap:operation soapAction="http://tempuri.org/BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101/CALLZ2FM_QO_FWA" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101Soap12" type="tns:BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CALLZ2FM_QO_FWA">
+      <soap12:operation soapAction="http://tempuri.org/BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101/CALLZ2FM_QO_FWA" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BizTalk assembly "BizTalk.RFC.TM_KSJD_101, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1ad1fc3ac7b6ce05" published web service.</wsdl:documentation>
+    <wsdl:port name="BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101Soap" binding="tns:BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101Soap">
+      <soap:address location="http://localhost/BizTalk.RFC.TM_KSJD_101_Proxy/BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101Soap12" binding="tns:BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101Soap12">
+      <soap12:address location="http://localhost/BizTalk.RFC.TM_KSJD_101_Proxy/BizTalk_RFC_TM_KSJD_101_BizTalkOrchestration_TM_KSJD_101.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,13 @@
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\bin\Debug\BizTalk.Adapter.DesignTime.AssemblySelectEditor.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\bin\Debug\Microsoft.XLANGs.BaseTypes.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\bin\Debug\Microsoft.BizTalk.CommonSettings.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\bin\Debug\BizTalk.Adapter.DesignTime.AssemblySelectEditor.pdb
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb

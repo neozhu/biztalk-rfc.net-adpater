@@ -1,0 +1,4 @@
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.TM_KSJD_413\bin\Debug\BizTalk.RFC.TM_KSJD_413.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.TM_KSJD_413\bin\Debug\BizTalk.RFC.TM_KSJD_413.pdb
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.TM_KSJD_413\obj\Debug\BizTalk.RFC.TM_KSJD_413.dll
+D:\BizTalk2016 SourceCode\BizTalk.SAP.RFC\BizTalk.Adapter.RFC\BizTalk.RFC.TM_KSJD_413\obj\Debug\BizTalk.RFC.TM_KSJD_413.pdb
