@@ -77,11 +77,12 @@ namespace BizTalk.Adapter.RFC.Core
                 _xmlType = string.Format("{1}#{0}", element.Name, this._schema.TargetNamespace);
                 _schemaType = string.Format("{1}#{0}", element.QualifiedName.Name, element.QualifiedName.Namespace);
 
-                //Console.WriteLine("{1}RootElement: {0}", element.Name, "\t");
+                Console.WriteLine("<{0}>", element.Name );
                 //root = xmlDocument.CreateElement(element.Name,ns);
                 xw.WriteStartElement("ns0",element.Name, _ns);
                 ReadElement(element,0, xw,  null);
                 xw.WriteEndElement();
+                Console.WriteLine("</{0}", element.Name);
 
             }
             xw.Flush();
@@ -128,24 +129,15 @@ namespace BizTalk.Adapter.RFC.Core
         /// <summary>
         /// 递归读取每个节点
         /// </summary>
-        private void ReadElement(XmlSchemaElement element, int level,  XmlWriter node,  IRfcDataContainer recordSet, IRfcDataContainer prevrfcdatastructure = null,int rowindex = 0)
+        private void ReadElement(XmlSchemaElement element, int level,  XmlWriter node,  IRfcDataContainer recordSet, IRfcDataContainer prevrfcdatastructure = null, IRfcDataContainer prevrfctabledatastructure = null, int rowindex = 0)
         {
             string tableName = string.Empty;
-                       
-     
             string fieldName = string.Empty;
             object fieldValue = null;
             string fieldType = string.Empty;
-
             level++;
-         
-
-
             // Get the complex type of the Customer element.
             XmlSchemaComplexType complexType = element.ElementSchemaType as XmlSchemaComplexType;
-
-           
-
             // Get the sequence particle of the complex type.
             XmlSchemaSequence sequence = complexType.Particle as XmlSchemaSequence;
             if (sequence == null)
@@ -154,64 +146,49 @@ namespace BizTalk.Adapter.RFC.Core
                 throw new NullReferenceException(
                     string.Format("{0} Complex type of sequence specified in the definition of schema {1},{2}",
                     element.Name, _schemaType,this._assemblyQualifiedName));
-                //return;
-
             }
-
             // Iterate over each XmlSchemaElement in the Items collection.
             foreach (XmlSchemaElement childElement in sequence.Items)
             {
-
                 //Console.WriteLine("{1}Element: {0}", childElement.Name, t);
                 // if element type is complex type then it is table head
                 if (childElement.ElementSchemaType is XmlSchemaComplexType)
                 {
-                    
-                    //Console.Write("TableName={0}\r\n", childElement.Name);
+                     //Console.Write("TableName={0}\r\n", childElement.Name);
                     tableName = childElement.Name;
-
                     var hasComplexNode = HasXmlSchemaComplexType(childElement);
-                   
-                    
-                    //this type is structure
+                    #region //this node type is structure
                     if (childElement.MaxOccurs <= 1)
                     {
                         if (level == 1)
                         {
                             recordSet = this._rfcfun.GetStructure(tableName);
-                           
-
                         }
                         else {
                             //prevrfcdatastructure = recordSet;
                             //prevrfcdatastructure = getPrevrfcdatastructure(((System.Xml.Schema.XmlSchemaElement)childElement.Parent.Parent.Parent).Name, level - 1,rowindex);
                             if (prevrfcdatastructure.GetType().Name == "RfcTable")
                             {
-                               
-                                recordSet = (prevrfcdatastructure as IRfcTable).GetStructure(tableName);
-                                 
+                               recordSet = (prevrfcdatastructure as IRfcTable).GetStructure(tableName);
                             }
                             else {
                                 recordSet = (prevrfcdatastructure as IRfcStructure).GetStructure(tableName);
-                               
                             }
                         }
-
                         if (hasComplexNode)
                         {
                             prevrfcdatastructure = recordSet;
                         }
-
-
-
                         //parentId = record.DataRow[index][foreignKey].ToString();
                         node.WriteStartElement("ns0",childElement.Name,this._ns);
                         ReadElement(childElement, level, node, recordSet, prevrfcdatastructure);
-                    
                         node.WriteEndElement();
 
                     }
-                    else {
+                    #endregion
+                    #region //this node type is table
+                    else
+                    {
                         if (level == 1)
                         {
                             recordSet = this._rfcfun.GetTable(tableName);
@@ -219,7 +196,8 @@ namespace BizTalk.Adapter.RFC.Core
                         }
                         else
                         {
-                        
+                            if (prevrfctabledatastructure != null)
+                                prevrfcdatastructure = prevrfctabledatastructure;
                             if (prevrfcdatastructure.GetType().Name == "RfcTable")
                             {
 
@@ -237,13 +215,15 @@ namespace BizTalk.Adapter.RFC.Core
                         {
                             var row = (recordSet as IRfcTable)[index];
                              node.WriteStartElement("ns0",childElement.Name,this._ns);
-                            ReadElement(childElement, level, node, row, row,index);
+                            ReadElement(childElement, level, node, row, recordSet, recordSet, index);
                        
                             node.WriteEndElement();
                         }
 
                     }
+                    #endregion
                 }
+                #region //ouput elment filed
                 else
                 {
                     if (childElement.MaxOccurs > 0 )
@@ -291,10 +271,11 @@ namespace BizTalk.Adapter.RFC.Core
                         {
                             Console.WriteLine("node " + fieldName + " no necessary display");
                         }
+                        Console.WriteLine("<{0}>{1}</{0}>", fieldName, fieldValue);
 
-                        
                     }
                 }
+                #endregion
 
 
             }

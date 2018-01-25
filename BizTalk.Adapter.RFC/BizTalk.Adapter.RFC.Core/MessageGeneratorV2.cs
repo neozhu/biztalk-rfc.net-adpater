@@ -76,7 +76,7 @@ namespace BizTalk.Adapter.RFC.Core
                 //Console.WriteLine("{1}RootElement: {0}", element.Name, "\t");
                 //root = xmlDocument.CreateElement(element.Name,ns);
                 xw.WriteStartElement("ns0",element.Name, _ns);
-                ReadElement(element,0, xw,  null);
+                ReadElement(element,1, xw,  null,null,-1);
                 xw.WriteEndElement();
 
             }
@@ -84,11 +84,20 @@ namespace BizTalk.Adapter.RFC.Core
             //Console.Write(sb.ToString());
             return sb;
         }
-        private IRfcDataContainer getPrevrfcdatastructure(string name, int level,int rowindex)
+        private IRfcDataContainer getPrevrfcdatastructure(string path,int rowindex)
         {
-            return this._outputStructure[level.ToString() + ":" + rowindex.ToString() + ":" + name] as IRfcDataContainer;
+            return this._outputStructure[  rowindex.ToString() + ":"+ path ] as IRfcDataContainer;
         }
+        private string GetPath(XmlSchemaElement element,string path) {
+            path += "/"+ element.Name;
+            if (element.ElementSchemaType is XmlSchemaComplexType &&
+                element.Parent != null ) {
+                if(element.Parent.Parent!=null)
+                    path = GetPath((XmlSchemaElement)element.Parent.Parent.Parent, path);
+            }
+            return path;
 
+        }
         //public void CreateInstanceById(string parentId)
         //{
         //    this._parentId = parentId;
@@ -122,7 +131,7 @@ namespace BizTalk.Adapter.RFC.Core
             object fieldValue = null;
             string fieldType = string.Empty;
 
-            level++;
+            
          
 
 
@@ -151,11 +160,11 @@ namespace BizTalk.Adapter.RFC.Core
                 // if element type is complex type then it is table head
                 if (childElement.ElementSchemaType is XmlSchemaComplexType)
                 {
-                    
-                    //Console.Write("TableName={0}\r\n", childElement.Name);
+                    if(childElement.Name== "ET_TOR")
+                        Console.Write("TableName={0}\r\n", childElement.Name);
                     tableName = childElement.Name;
-
-
+                    var path= GetPath(childElement, "");
+                    Console.WriteLine(path);
                     //--------------------------------------------------------//
                     //Note foreign key set parentkey=childrenkey
                     //--------------------------------------------------------//
@@ -165,30 +174,53 @@ namespace BizTalk.Adapter.RFC.Core
                         if (level == 1)
                         {
                             recordSet = this._rfcfun.GetStructure(tableName);
-                            if (!this._outputStructure.ContainsKey(level.ToString() + ":" + rowindex.ToString() + ":" + tableName))
-                                _outputStructure.Add(level.ToString() + ":" + rowindex.ToString() + ":" + tableName, recordSet);
+                            if (!this._outputStructure.ContainsKey(rowindex.ToString() + ":" + path))
+                                _outputStructure.Add(rowindex.ToString() + ":" + path, recordSet);
 
                         }
                         else {
-                            prevrfcdatastructure = getPrevrfcdatastructure(((System.Xml.Schema.XmlSchemaElement)childElement.Parent.Parent.Parent).Name, level - 1,rowindex);
-                            if (prevrfcdatastructure.GetType().Name == "RfcTable")
+                            var parentpath = GetPath((XmlSchemaElement)childElement.Parent.Parent.Parent,"");
+                            if (((XmlSchemaElement)childElement.Parent.Parent.Parent).MaxOccurs <= 1)
                             {
+                                prevrfcdatastructure = getPrevrfcdatastructure(parentpath, -1);
+                                if (prevrfcdatastructure.GetType().Name == "RfcTable")
+                                {
 
-                                recordSet = (prevrfcdatastructure as IRfcTable).GetStructure(tableName);
-                                if (!this._outputStructure.ContainsKey(level.ToString() + ":" + rowindex.ToString() + ":" + tableName))
-                                    _outputStructure.Add(level.ToString() + ":" + rowindex.ToString() + ":" + tableName, recordSet);
+                                    recordSet = (prevrfcdatastructure as IRfcTable).GetStructure(tableName);
+                                    if (!this._outputStructure.ContainsKey("-1" + ":" + path))
+                                        _outputStructure.Add("-1"+ ":" + path, recordSet);
+                                }
+                                else
+                                {
+                                    recordSet = (prevrfcdatastructure as IRfcStructure).GetStructure(tableName);
+                                    if (!this._outputStructure.ContainsKey("-1" + ":" + path))
+                                        _outputStructure.Add("-1" + ":" + path, recordSet);
+                                }
                             }
-                            else {
-                                recordSet = (prevrfcdatastructure as IRfcStructure).GetStructure(tableName);
-                                if (!this._outputStructure.ContainsKey(level.ToString() + ":" + rowindex.ToString() + ":" + tableName))
-                                    _outputStructure.Add(level.ToString() + ":" + rowindex.ToString() + ":" + tableName, recordSet);
+                            else
+                            {
+                                prevrfcdatastructure = getPrevrfcdatastructure(parentpath, rowindex);
+                                if (prevrfcdatastructure.GetType().Name == "RfcTable")
+                                {
+
+                                    recordSet = (prevrfcdatastructure as IRfcTable).GetStructure(tableName);
+                                    if (!this._outputStructure.ContainsKey(rowindex.ToString() + ":" + path))
+                                        _outputStructure.Add(rowindex.ToString() + ":" + path, recordSet);
+                                }
+                                else
+                                {
+                                    recordSet = (prevrfcdatastructure as IRfcStructure).GetStructure(tableName);
+                                    if (!this._outputStructure.ContainsKey("-1" + ":" + path))
+                                        _outputStructure.Add("-1" + ":" + path, recordSet);
+                                }
                             }
+                            
                         }
 
 
                         //parentId = record.DataRow[index][foreignKey].ToString();
                         node.WriteStartElement("ns0",childElement.Name,this._ns);
-                        ReadElement(childElement, level, node, recordSet);
+                        ReadElement(childElement, level+1 , node, recordSet,null,(rowindex != -1? rowindex : -1));
                         node.WriteEndElement();
 
                     }
@@ -196,36 +228,42 @@ namespace BizTalk.Adapter.RFC.Core
                         if (level == 1)
                         {
                             recordSet = this._rfcfun.GetTable(tableName);
-                            if (!this._outputStructure.ContainsKey(level.ToString() + ":" + rowindex.ToString() + ":" + tableName))
-                                _outputStructure.Add(level.ToString() + ":" +rowindex.ToString() + ":" + tableName, recordSet);
+                            if (!this._outputStructure.ContainsKey(rowindex.ToString() + ":" + path))
+                                _outputStructure.Add(rowindex.ToString() + ":" + path, recordSet);
                         }
                         else
                         {
-                            prevrfcdatastructure = getPrevrfcdatastructure(((System.Xml.Schema.XmlSchemaElement)childElement.Parent.Parent.Parent).Name, level - 1,rowindex);
+                            var parentpath = GetPath((XmlSchemaElement)childElement.Parent.Parent.Parent, "");
+                            if (((XmlSchemaElement)childElement.Parent.Parent.Parent).MaxOccurs <= 1)
+                                prevrfcdatastructure = getPrevrfcdatastructure(parentpath, -1);
+                            else
+                                prevrfcdatastructure = getPrevrfcdatastructure(parentpath, rowindex);
+                        
                             if (prevrfcdatastructure.GetType().Name == "RfcTable")
                             {
 
                                 recordSet = (prevrfcdatastructure as IRfcTable).GetTable(tableName);
-                                if (!this._outputStructure.ContainsKey(level.ToString() + ":" + rowindex.ToString() + ":" + tableName))
-                                    _outputStructure.Add(level.ToString() + ":" + rowindex.ToString() + ":" + tableName, recordSet);
+                                if (!this._outputStructure.ContainsKey(rowindex.ToString() + ":" + path))
+                                    _outputStructure.Add(rowindex.ToString() + ":" + path, recordSet);
                             }
                             else
                             {
                                 recordSet = (prevrfcdatastructure as IRfcStructure).GetTable(tableName);
-                                if (!this._outputStructure.ContainsKey(level.ToString() + ":" + rowindex.ToString() +":" + tableName))
-                                    _outputStructure.Add(level.ToString() + ":" + rowindex.ToString() + ":"  + tableName, recordSet);
+                                if (!this._outputStructure.ContainsKey(rowindex.ToString() + ":" + path))
+                                    _outputStructure.Add(rowindex.ToString() + ":" + path, recordSet);
                             }
                         }
 
                         for (int index = 0; index < recordSet.Count; index++)
                         {
                             var row = (recordSet as IRfcTable)[index];
-                            if (!this._outputStructure.ContainsKey(level.ToString() + ":" + index.ToString() + ":" + tableName))
-                                _outputStructure.Add(level.ToString() + ":" + index.ToString() + ":" + tableName, row);
+                            if (!this._outputStructure.ContainsKey(index.ToString() + ":" + path))
+                                _outputStructure.Add(index.ToString() + ":" + path, row);
 
 
                             node.WriteStartElement("ns0",childElement.Name,this._ns);
-                            ReadElement(childElement, level, node, row, prevrfcdatastructure,index);
+
+                            ReadElement(childElement, (level+1), node, row, prevrfcdatastructure,index);
                             node.WriteEndElement();
                         }
 
