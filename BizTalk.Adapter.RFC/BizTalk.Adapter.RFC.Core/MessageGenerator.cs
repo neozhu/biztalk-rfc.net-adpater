@@ -123,8 +123,6 @@ namespace BizTalk.Adapter.RFC.Core
                 }
             }
             return false;
-             
-
         }
         /// <summary>
         /// 递归读取每个节点
@@ -215,7 +213,7 @@ namespace BizTalk.Adapter.RFC.Core
                         {
                             var row = (recordSet as IRfcTable)[index];
                              node.WriteStartElement("ns0",childElement.Name,this._ns);
-                            ReadElement(childElement, level, node, row, recordSet, recordSet, index);
+                            ReadElement(childElement, level, node, row, recordSet, recordSet,index);
                        
                             node.WriteEndElement();
                         }

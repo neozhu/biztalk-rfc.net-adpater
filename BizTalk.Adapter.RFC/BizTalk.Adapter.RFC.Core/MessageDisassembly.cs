@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -117,7 +117,7 @@ namespace BizTalk.Adapter.RFC.Core
 
 
         }
-        private void ReadElement(XmlSchemaElement element, int i, XPathNavigator navigator, ref Dictionary<string, object> dataRow, IRfcDataContainer rfcdatastructure = null, IRfcDataContainer prevrfcdatastructure = null)
+        private void ReadElement(XmlSchemaElement element, int level, XPathNavigator navigator, ref Dictionary<string, object> dataRow, IRfcDataContainer rfcdatastructure = null, IRfcDataContainer prevrfcdatastructure = null, IRfcDataContainer prevrfctabledatastructure = null)
         {
             string tableName = string.Empty;
             string filter = string.Empty;
@@ -127,19 +127,15 @@ namespace BizTalk.Adapter.RFC.Core
             string fieldType = string.Empty;
             //string preOperation = string.Empty;
             //string finallyOperation = string.Empty;
-            i++;
+            level++;
             string t = "\t";
-            for (int l = 0; l < i; l++)
+            for (int l = 0; l < level; l++)
             {
                 t += "\t";
             }
-
-
             // Get the complex type of the Customer element.
             XmlSchemaComplexType complexType = element.ElementSchemaType as XmlSchemaComplexType;
-
             // Get the sequence particle of the complex type.
-
             //if (element.Name == "HISTORY_INFO")
             //   Debug.WriteLine("[ad] HISTORY_INFO");
             XmlSchemaSequence sequence = complexType.Particle as XmlSchemaSequence;
@@ -150,11 +146,9 @@ namespace BizTalk.Adapter.RFC.Core
                     string.Format("{0} Complex type of sequence specified in the definition of schema {1},{2}",
                     element.Name, _schemaType,this._assemblyQualifiedName));
                 //return;
-
             }
 
             // Iterate over each XmlSchemaElement in the Items collection.
-
             foreach (XmlSchemaElement childElement in sequence.Items)
             {
 
@@ -165,69 +159,56 @@ namespace BizTalk.Adapter.RFC.Core
                 //    Debug.WriteLine("[ad] ORDER_NO " + childElement.ElementSchemaType.Name);
                 if (childElement.ElementSchemaType is XmlSchemaComplexType)
                 {
-
-                   
                     tableName = childElement.Name;
-                 
+                    var hasComplexNode = HasXmlSchemaComplexType(childElement);
+                    //结构
                     if (childElement.MaxOccurs <= 1)
                     {
-                        if (i == 1)
+                        if (level == 1)
                         {
                             rfcdatastructure = this._rfcfun.GetStructure(tableName);
                           
-
                         }
                         else
                         {
-                            
                             if (prevrfcdatastructure.GetType().Name == "RfcStructure")
                             {
-
                                 rfcdatastructure = (prevrfcdatastructure as IRfcStructure).GetStructure(tableName);
-                           
-
-
-
                             }
                             else
                             {
-
-
                                 rfcdatastructure = (prevrfcdatastructure as IRfcTable).GetStructure(tableName);
-                             
-
                             }
                         }
-
+                        if (hasComplexNode)
+                        {
+                            prevrfcdatastructure = rfcdatastructure;
+                        }
+                        //XPathNodeIterator items = navigator.SelectChildren(childElement.Name, this._namespace);
+                        //ReadElement(childElement, level, items, ref row, rfcdatastructure, prevrfcdatastructure);
 
                     }
-                    else
+                    else //表
                     {
-                        if (i == 1)
+                        if (level == 1)
                         {
                             rfcdatastructure = this._rfcfun.GetTable(tableName);
-                          
-
                         }
                         else
                         {
-                          
+                            if (prevrfctabledatastructure != null)
+                                prevrfcdatastructure = prevrfctabledatastructure;
+
                             if (prevrfcdatastructure.GetType().Name == "RfcTable")
                             {
                                 rfcdatastructure = (prevrfcdatastructure as IRfcTable).GetTable(tableName);
-
-                              
-
                             }
                             else
                             {
                                 rfcdatastructure = (prevrfcdatastructure as IRfcStructure).GetTable(tableName);
-                              
-
                             }
 
                         }
-
 
                     }
                     
@@ -251,18 +232,20 @@ namespace BizTalk.Adapter.RFC.Core
                             {
                                 var table = rfcdatastructure as IRfcTable;
                                 table.Append();
-                                prevrfcdatastructure = table;
+                                //prevrfcdatastructure = table;
+                                ReadElement(childElement, level, items.Current.Clone(), ref row, rfcdatastructure, table, table);
                             }
                             else {
-                                var hasComplexNode = HasXmlSchemaComplexType(childElement);
+                                //var hasComplexNode = HasXmlSchemaComplexType(childElement);
                                 if (hasComplexNode)
                                 {
                                     prevrfcdatastructure = rfcdatastructure;
                                 }
+                                ReadElement(childElement, level, items.Current.Clone(), ref row, rfcdatastructure, prevrfcdatastructure);
                             }
 
 
-                            ReadElement(childElement, i, items.Current.Clone(), ref row, rfcdatastructure, prevrfcdatastructure);
+                           
 
                             //cmdBuilder.DataRow.Add(row);
                             if (rfcdatastructure.GetType().Name == "RfcStructure")
@@ -405,6 +388,7 @@ namespace BizTalk.Adapter.RFC.Core
 
 
         }
+        
         public void SchemaValidation(XmlDocument document)
         {
             //XmlReader reader = XmlReader.Create(message.CreateNavigator().OuterXml);

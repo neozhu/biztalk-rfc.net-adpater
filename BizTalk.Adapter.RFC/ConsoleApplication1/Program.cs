@@ -58,9 +58,9 @@ namespace ConsoleApplication1
 
 
 
-            rfc.Add(RfcConfigParameters.Name, "DTM");
-            rfc.Add(RfcConfigParameters.AppServerHost, "172.20.60.62");
-            rfc.Add(RfcConfigParameters.Client, "212");
+            rfc.Add(RfcConfigParameters.Name, "QTM");
+            rfc.Add(RfcConfigParameters.AppServerHost, "sapqtm01.feili.com");
+            rfc.Add(RfcConfigParameters.Client, "610");
             rfc.Add(RfcConfigParameters.User, "soapcall");
             rfc.Add(RfcConfigParameters.Password, "soapcall");
             rfc.Add(RfcConfigParameters.SystemNumber, "00");
@@ -81,13 +81,13 @@ namespace ConsoleApplication1
             //rfc.Add(RfcConfigParameters.ConnectionIdleTimeout, "500");
             RfcDestination dest = RfcDestinationManager.GetDestination(rfc);
 
-            AssemblySelector selector = new AssemblySelector("D:\\BizTalk.RFC.TM_KSJD_403.dll", "BizTalk.RFC.TM_KSJD_403.Schemas.INPUT.Z2FM_QO_TRQ_GET");
+            AssemblySelector selector = new AssemblySelector("D:\\BizTalk.RFC.TM_CRM_701.dll", "BizTalk.RFC.TM_CRM_701.Schemas.INPUT.Z2FM_SQ_FWA_CREATE");
             XmlDocument doc = new XmlDocument();
-            doc.Load("d:\\403.xml");
+            doc.Load("d:\\701.xml");
 
-            MessageDisassemblyV2 dis = new MessageDisassemblyV2(selector, dest);
+            MessageDisassembly dis = new MessageDisassembly(selector, dest);
             var fun = dis.Disassemble(doc);
-            AssemblySelector outputselector = new AssemblySelector("D:\\BizTalk.RFC.TM_KSJD_403.dll", "BizTalk.RFC.TM_KSJD_403.Schemas.OUTPUT.Z2FM_QO_TRQ_GET_RES");
+            AssemblySelector outputselector = new AssemblySelector("D:\\BizTalk.RFC.TM_CRM_701.dll", "BizTalk.RFC.TM_CRM_701.Schemas.OUTPUT.Z2FM_SQ_FWA_CREATE_RES");
 
             MessageGenerator gen = new MessageGenerator(outputselector, fun);
             var stream = gen.CreateInstance();

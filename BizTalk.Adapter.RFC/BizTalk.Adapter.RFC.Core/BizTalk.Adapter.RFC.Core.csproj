@@ -59,6 +59,7 @@
     <Compile Include="AssemblySelector.cs" />
     <Compile Include="ExtensionString2Hex.cs" />
     <Compile Include="MessageDisassembly.cs" />
+    <Compile Include="MessageDisassemblyV2_bak.cs" />
     <Compile Include="MessageDisassemblyV2.cs" />
     <Compile Include="MessageGenerator.cs" />
     <Compile Include="MessageGeneratorV2.cs" />
