@@ -61,6 +61,7 @@
     <Compile Include="MessageDisassembly.cs" />
     <Compile Include="MessageDisassemblyV2_bak.cs" />
     <Compile Include="MessageDisassemblyV2.cs" />
+    <Compile Include="MessageGenerator_org.cs" />
     <Compile Include="MessageGenerator.cs" />
     <Compile Include="MessageGeneratorV2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

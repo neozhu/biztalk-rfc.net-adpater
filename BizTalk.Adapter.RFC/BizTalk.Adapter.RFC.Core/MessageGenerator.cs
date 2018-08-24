@@ -124,161 +124,280 @@ namespace BizTalk.Adapter.RFC.Core
             }
             return false;
         }
-        /// <summary>
-        /// 递归读取每个节点
-        /// </summary>
-        private void ReadElement(XmlSchemaElement element, int level,  XmlWriter node,  IRfcDataContainer recordSet, IRfcDataContainer prevrfcdatastructure = null, IRfcDataContainer prevrfctabledatastructure = null, int rowindex = 0)
+        private void ReadElement(XmlSchemaElement element, int level, XmlWriter node, IRfcDataContainer recordSet, IRfcDataContainer prevrfcdatastructure = null, IRfcDataContainer prevrfctabledatastructure = null, int rowindex = 0)
         {
             string tableName = string.Empty;
             string fieldName = string.Empty;
             object fieldValue = null;
             string fieldType = string.Empty;
             level++;
-            // Get the complex type of the Customer element.
-            XmlSchemaComplexType complexType = element.ElementSchemaType as XmlSchemaComplexType;
-            // Get the sequence particle of the complex type.
-            XmlSchemaSequence sequence = complexType.Particle as XmlSchemaSequence;
-            if (sequence == null)
+            XmlSchemaComplexType elementSchemaType = element.ElementSchemaType as XmlSchemaComplexType;
+            XmlSchemaSequence particle = elementSchemaType.Particle as XmlSchemaSequence;
+            if (particle == null)
             {
-                //Debug.WriteLine("[ad] NULL " + element.Name + complexType.ContentType.ToString());
-                throw new NullReferenceException(
-                    string.Format("{0} Complex type of sequence specified in the definition of schema {1},{2}",
-                    element.Name, _schemaType,this._assemblyQualifiedName));
+                throw new NullReferenceException($"{element.Name} Complex type of sequence specified in the definition of schema {this._schemaType},{this._assemblyQualifiedName}");
             }
-            // Iterate over each XmlSchemaElement in the Items collection.
-            foreach (XmlSchemaElement childElement in sequence.Items)
+            foreach (XmlSchemaElement childElement in particle.Items)
             {
-                //Console.WriteLine("{1}Element: {0}", childElement.Name, t);
-                // if element type is complex type then it is table head
                 if (childElement.ElementSchemaType is XmlSchemaComplexType)
                 {
-                     //Console.Write("TableName={0}\r\n", childElement.Name);
                     tableName = childElement.Name;
-                    var hasComplexNode = HasXmlSchemaComplexType(childElement);
-                    #region //this node type is structure
-                    if (childElement.MaxOccurs <= 1)
+                    bool flag3 = this.HasXmlSchemaComplexType(childElement);
+                    if (childElement.MaxOccurs <= decimal.One)
                     {
                         if (level == 1)
                         {
                             recordSet = this._rfcfun.GetStructure(tableName);
                         }
-                        else {
-                            //prevrfcdatastructure = recordSet;
-                            //prevrfcdatastructure = getPrevrfcdatastructure(((System.Xml.Schema.XmlSchemaElement)childElement.Parent.Parent.Parent).Name, level - 1,rowindex);
-                            if (prevrfcdatastructure.GetType().Name == "RfcTable")
-                            {
-                               recordSet = (prevrfcdatastructure as IRfcTable).GetStructure(tableName);
-                            }
-                            else {
-                                recordSet = (prevrfcdatastructure as IRfcStructure).GetStructure(tableName);
-                            }
+                        else if (prevrfcdatastructure.GetType().Name == "RfcTable")
+                        {
+                            recordSet = (prevrfcdatastructure as IRfcTable).GetStructure(tableName);
                         }
-                        if (hasComplexNode)
+                        else
+                        {
+                            recordSet = (prevrfcdatastructure as IRfcStructure).GetStructure(tableName);
+                        }
+                        if (flag3)
                         {
                             prevrfcdatastructure = recordSet;
                         }
-                        //parentId = record.DataRow[index][foreignKey].ToString();
-                        node.WriteStartElement("ns0",childElement.Name,this._ns);
-                        ReadElement(childElement, level, node, recordSet, prevrfcdatastructure);
+                        node.WriteStartElement("ns0", childElement.Name, this._ns);
+                        this.ReadElement(childElement, level, node, recordSet, prevrfcdatastructure, null, 0);
                         node.WriteEndElement();
-
                     }
-                    #endregion
-                    #region //this node type is table
                     else
                     {
                         if (level == 1)
                         {
                             recordSet = this._rfcfun.GetTable(tableName);
-                            
                         }
                         else
                         {
                             if (prevrfctabledatastructure != null)
+                            {
                                 prevrfcdatastructure = prevrfctabledatastructure;
+                            }
                             if (prevrfcdatastructure.GetType().Name == "RfcTable")
                             {
-
                                 recordSet = (prevrfcdatastructure as IRfcTable).GetTable(tableName);
-                                
                             }
                             else
                             {
                                 recordSet = (prevrfcdatastructure as IRfcStructure).GetTable(tableName);
-                                 
                             }
                         }
-
-                        for (int index = 0; index < recordSet.Count; index++)
+                        for (int i = 0; i < recordSet.Count; i++)
                         {
-                            var row = (recordSet as IRfcTable)[index];
-                             node.WriteStartElement("ns0",childElement.Name,this._ns);
-                            ReadElement(childElement, level, node, row, recordSet, recordSet,index);
-                       
+                            IRfcStructure structure = (recordSet as IRfcTable)[i];
+                            node.WriteStartElement("ns0", childElement.Name, this._ns);
+                            this.ReadElement(childElement, level, node, structure, structure, structure, i);
                             node.WriteEndElement();
                         }
-
                     }
-                    #endregion
                 }
-                #region //ouput elment filed
-                else
+                else if (childElement.MaxOccurs > decimal.Zero)
                 {
-                    if (childElement.MaxOccurs > 0 )
+                    fieldName = childElement.Name;
+                    fieldType = childElement.SchemaTypeName.Name;
+                    if (level > 1)
                     {
-                        fieldName = childElement.Name;
-                        fieldType = childElement.SchemaTypeName.Name;
-                        if (level > 1)
-                        {
-                            var row = recordSet as IRfcStructure;
-                            fieldValue = row.GetValue(fieldName);
-                        }
-                        else {
-                            fieldValue = this._rfcfun.GetValue(fieldName);
-                        }
-         
-                        var isNull = fieldValue ==null;
-                        if (childElement.MinOccurs > 0 && isNull)
-                        {
-                            throw new NullReferenceException(
-                                string.Format("Can not create xml element {0} , the field  {1}  value is null. {2},{3}"
-                                , childElement.Name, fieldName,this._schemaType,this._assemblyQualifiedName)
-                                );
-                        }
-                        if (!(childElement.MinOccurs == 0 && isNull) )
-                        {
-                            node.WriteStartElement("ns0",fieldName,this._ns);
-                            if (!isNull)
-                            {
-                                switch (fieldType) {
-                                    case "base64Binary":
-                                        //fieldValue = ((byte[])fieldValue).ToHex();
-                                        break;
-                                }
-                                node.WriteValue(fieldValue);
-                            }
-                            node.WriteEndElement();
-                        }
-                        else if (childElement.MinOccurs > 0)
-                        {
-                            node.WriteStartElement("ns0",fieldName,this._ns);
-                            //node.WriteValue(fieldValue);
-                            node.WriteEndElement();
-                        }
-                        else
-                        {
-                            Console.WriteLine("node " + fieldName + " no necessary display");
-                        }
-                        Console.WriteLine("<{0}>{1}</{0}>", fieldName, fieldValue);
-
+                        fieldValue = (recordSet as IRfcStructure).GetValue(fieldName);
                     }
+                    else
+                    {
+                        fieldValue = this._rfcfun.GetValue(fieldName);
+                    }
+                    bool isNull = fieldValue == null;
+                    if ((childElement.MinOccurs > decimal.Zero) & isNull)
+                    {
+                        throw new NullReferenceException($"Can not create xml element {childElement.Name} , the field  {fieldName}  value is null. {this._schemaType},{this._assemblyQualifiedName}");
+                    }
+                    if (!((childElement.MinOccurs == decimal.Zero) & isNull))
+                    {
+                        node.WriteStartElement("ns0", fieldName, this._ns);
+                        if (!isNull)
+                        {
+                            switch (fieldType)
+                            {
+                                case "base64Binary":
+                                    {
+                                        break;
+                                    }
+                            }
+                            node.WriteValue(fieldValue);
+                        }
+                        node.WriteEndElement();
+                    }
+                    else if (childElement.MinOccurs > decimal.Zero)
+                    {
+                        node.WriteStartElement("ns0", fieldName, this._ns);
+                        node.WriteEndElement();
+                    }
+                    else
+                    {
+                        Console.WriteLine("node " + fieldName + " no necessary display");
+                    }
+                    Console.WriteLine("<{0}>{1}</{0}>", fieldName, fieldValue);
                 }
-                #endregion
-
-
             }
         }
 
-         
+
+        /// <summary>
+        /// 递归读取每个节点
+        /// </summary>
+        //private void ReadElement(XmlSchemaElement element, int level,  XmlWriter node,  IRfcDataContainer recordSet, IRfcDataContainer prevrfcdatastructure = null, IRfcDataContainer prevrfctabledatastructure = null, int rowindex = 0)
+        //{
+        //    string tableName = string.Empty;
+        //    string fieldName = string.Empty;
+        //    object fieldValue = null;
+        //    string fieldType = string.Empty;
+        //    level++;
+        //    // Get the complex type of the Customer element.
+        //    XmlSchemaComplexType complexType = element.ElementSchemaType as XmlSchemaComplexType;
+        //    // Get the sequence particle of the complex type.
+        //    XmlSchemaSequence sequence = complexType.Particle as XmlSchemaSequence;
+        //    if (sequence == null)
+        //    {
+        //        //Debug.WriteLine("[ad] NULL " + element.Name + complexType.ContentType.ToString());
+        //        throw new NullReferenceException(
+        //            string.Format("{0} Complex type of sequence specified in the definition of schema {1},{2}",
+        //            element.Name, _schemaType,this._assemblyQualifiedName));
+        //    }
+        //    // Iterate over each XmlSchemaElement in the Items collection.
+        //    foreach (XmlSchemaElement childElement in sequence.Items)
+        //    {
+        //        //Console.WriteLine("{1}Element: {0}", childElement.Name, t);
+        //        // if element type is complex type then it is table head
+        //        if (childElement.ElementSchemaType is XmlSchemaComplexType)
+        //        {
+        //             //Console.Write("TableName={0}\r\n", childElement.Name);
+        //            tableName = childElement.Name;
+        //            var hasComplexNode = HasXmlSchemaComplexType(childElement);
+        //            #region //this node type is structure
+        //            if (childElement.MaxOccurs <= 1)
+        //            {
+        //                if (level == 1)
+        //                {
+        //                    recordSet = this._rfcfun.GetStructure(tableName);
+        //                }
+        //                else {
+        //                    //prevrfcdatastructure = recordSet;
+        //                    //prevrfcdatastructure = getPrevrfcdatastructure(((System.Xml.Schema.XmlSchemaElement)childElement.Parent.Parent.Parent).Name, level - 1,rowindex);
+        //                    if (prevrfcdatastructure.GetType().Name == "RfcTable")
+        //                    {
+        //                       recordSet = (prevrfcdatastructure as IRfcTable).GetStructure(tableName);
+        //                    }
+        //                    else {
+        //                        recordSet = (prevrfcdatastructure as IRfcStructure).GetStructure(tableName);
+        //                    }
+        //                }
+        //                if (hasComplexNode)
+        //                {
+        //                    prevrfcdatastructure = recordSet;
+        //                }
+        //                //parentId = record.DataRow[index][foreignKey].ToString();
+        //                node.WriteStartElement("ns0",childElement.Name,this._ns);
+        //                ReadElement(childElement, level, node, recordSet, prevrfcdatastructure);
+        //                node.WriteEndElement();
+
+        //            }
+        //            #endregion
+        //            #region //this node type is table
+        //            else
+        //            {
+        //                if (level == 1)
+        //                {
+        //                    recordSet = this._rfcfun.GetTable(tableName);
+
+        //                }
+        //                else
+        //                {
+        //                    if (prevrfctabledatastructure != null)
+        //                        prevrfcdatastructure = prevrfctabledatastructure;
+        //                    if (prevrfcdatastructure.GetType().Name == "RfcTable")
+        //                    {
+
+        //                        recordSet = (prevrfcdatastructure as IRfcTable).GetTable(tableName);
+
+        //                    }
+        //                    else
+        //                    {
+        //                        recordSet = (prevrfcdatastructure as IRfcStructure).GetTable(tableName);
+
+        //                    }
+        //                }
+
+        //                for (int index = 0; index < recordSet.Count; index++)
+        //                {
+        //                    var row = (recordSet as IRfcTable)[index];
+        //                     node.WriteStartElement("ns0",childElement.Name,this._ns);
+        //                    ReadElement(childElement, level, node, row, recordSet, recordSet,index);
+
+        //                    node.WriteEndElement();
+        //                }
+
+        //            }
+        //            #endregion
+        //        }
+        //        #region //ouput elment filed
+        //        else
+        //        {
+        //            if (childElement.MaxOccurs > 0 )
+        //            {
+        //                fieldName = childElement.Name;
+        //                fieldType = childElement.SchemaTypeName.Name;
+        //                if (level > 1)
+        //                {
+        //                    var row = recordSet as IRfcStructure;
+        //                    fieldValue = row.GetValue(fieldName);
+        //                }
+        //                else {
+        //                    fieldValue = this._rfcfun.GetValue(fieldName);
+        //                }
+
+        //                var isNull = fieldValue ==null;
+        //                if (childElement.MinOccurs > 0 && isNull)
+        //                {
+        //                    throw new NullReferenceException(
+        //                        string.Format("Can not create xml element {0} , the field  {1}  value is null. {2},{3}"
+        //                        , childElement.Name, fieldName,this._schemaType,this._assemblyQualifiedName)
+        //                        );
+        //                }
+        //                if (!(childElement.MinOccurs == 0 && isNull) )
+        //                {
+        //                    node.WriteStartElement("ns0",fieldName,this._ns);
+        //                    if (!isNull)
+        //                    {
+        //                        switch (fieldType) {
+        //                            case "base64Binary":
+        //                                //fieldValue = ((byte[])fieldValue).ToHex();
+        //                                break;
+        //                        }
+        //                        node.WriteValue(fieldValue);
+        //                    }
+        //                    node.WriteEndElement();
+        //                }
+        //                else if (childElement.MinOccurs > 0)
+        //                {
+        //                    node.WriteStartElement("ns0",fieldName,this._ns);
+        //                    //node.WriteValue(fieldValue);
+        //                    node.WriteEndElement();
+        //                }
+        //                else
+        //                {
+        //                    Console.WriteLine("node " + fieldName + " no necessary display");
+        //                }
+        //                Console.WriteLine("<{0}>{1}</{0}>", fieldName, fieldValue);
+
+        //            }
+        //        }
+        //        #endregion
+
+
+        //    }
+        //}
+
+
     }
 }
