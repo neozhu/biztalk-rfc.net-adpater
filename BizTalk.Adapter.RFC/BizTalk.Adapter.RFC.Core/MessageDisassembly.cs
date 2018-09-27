@@ -51,26 +51,15 @@ namespace BizTalk.Adapter.RFC.Core
         }
         public IRfcFunction Disassemble(XmlDocument message)
         {
-            //this.SchemaValidation(message);
-
-
-            //_document = new XPathDocument(message);
             _navigator = message.CreateNavigator();
             _navigator.MoveToFirstChild();
             this._namespace = _navigator.NamespaceURI;
             _spaceManager = new XmlNamespaceManager(_navigator.NameTable);
             _spaceManager.AddNamespace(prefix, _namespace);
-
             this._rfcfun = this._rfcrep.CreateFunction(this._navigator.LocalName);
-
-            //foreach (XmlSchemaElement element in this._schema.Elements.Values)
-            //for (int i = 0; i < this._schema.Elements.Values.Count;i++ )
-            //{
-
             _xmlType = string.Format("{1}#{0}", this._navigator.LocalName, this._namespace);
             //_schemaType = string.Format("{1}#{0}", element.QualifiedName.Name, element.QualifiedName.Namespace);
             _schemaType = string.Empty;
-
             XmlQualifiedName quaName = new XmlQualifiedName(this._navigator.LocalName, this._namespace);
             XmlSchemaObject schemaObject = this._schema.Elements[quaName];
             if (schemaObject == null)
@@ -79,16 +68,8 @@ namespace BizTalk.Adapter.RFC.Core
                     _xmlType));
             _schemaType = string.Format("{1}#{0}", this._navigator.Name, this._namespace);
             XmlSchemaElement element = schemaObject as XmlSchemaElement;
-
-            //Console.WriteLine("{1}RootElement: {0}", element.Name, "\t");
-            //root = xmlDocument.CreateElement(element.Name,ns);
-            //xpath=string.Format("/{0}:{1}",element.Name);
             Dictionary<string, object> row = null;
             ReadElement(element, 0, this._navigator, ref row);
-
-
-            //}
-            //Console.WriteLine(this._commandList);
             this.ExecuteCommand();
             return this._rfcfun;
 
@@ -96,11 +77,6 @@ namespace BizTalk.Adapter.RFC.Core
         public void ExecuteCommand()
         {
             this._rfcfun.Invoke(this._rfcdest);
-            //var result = this._rfcfun.GetStructure("OUTPUT");
-        }
-        private IRfcDataContainer getPrevrfcdatastructure(string name, int i)
-        {
-            return this._inparalist[i.ToString() + ":" + name] as IRfcDataContainer;
         }
 
         private bool HasXmlSchemaComplexType(XmlSchemaElement element)
@@ -121,23 +97,16 @@ namespace BizTalk.Adapter.RFC.Core
         {
             string tableName = string.Empty;
             string filter = string.Empty;
-            //string[] primaryKey = null;
             string fieldName = string.Empty;
             object fieldValue = null;
             string fieldType = string.Empty;
-            //string preOperation = string.Empty;
-            //string finallyOperation = string.Empty;
             level++;
             string t = "\t";
             for (int l = 0; l < level; l++)
             {
                 t += "\t";
             }
-            // Get the complex type of the Customer element.
             XmlSchemaComplexType complexType = element.ElementSchemaType as XmlSchemaComplexType;
-            // Get the sequence particle of the complex type.
-            //if (element.Name == "HISTORY_INFO")
-            //   Debug.WriteLine("[ad] HISTORY_INFO");
             XmlSchemaSequence sequence = complexType.Particle as XmlSchemaSequence;
             if (sequence == null)
             {
@@ -153,10 +122,6 @@ namespace BizTalk.Adapter.RFC.Core
             {
 
                 //Console.WriteLine("{1}Element: {0}", childElement.Name, t);
-                //navigator.Select("")
-                // if element type is complex type then it is table head
-                //if (childElement.Name == "ORDER_NO")
-                //    Debug.WriteLine("[ad] ORDER_NO " + childElement.ElementSchemaType.Name);
                 if (childElement.ElementSchemaType is XmlSchemaComplexType)
                 {
                     tableName = childElement.Name;
@@ -184,9 +149,7 @@ namespace BizTalk.Adapter.RFC.Core
                         {
                             prevrfcdatastructure = rfcdatastructure;
                         }
-                        //XPathNodeIterator items = navigator.SelectChildren(childElement.Name, this._namespace);
-                        //ReadElement(childElement, level, items, ref row, rfcdatastructure, prevrfcdatastructure);
-
+                       
                     }
                     else //表
                     {

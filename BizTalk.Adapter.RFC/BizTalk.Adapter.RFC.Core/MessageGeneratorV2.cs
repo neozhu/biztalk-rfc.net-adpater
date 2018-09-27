@@ -160,8 +160,6 @@ namespace BizTalk.Adapter.RFC.Core
                 // if element type is complex type then it is table head
                 if (childElement.ElementSchemaType is XmlSchemaComplexType)
                 {
-                    if(childElement.Name== "ET_TOR")
-                        Console.Write("TableName={0}\r\n", childElement.Name);
                     tableName = childElement.Name;
                     var path= GetPath(childElement, "");
                     Console.WriteLine(path);

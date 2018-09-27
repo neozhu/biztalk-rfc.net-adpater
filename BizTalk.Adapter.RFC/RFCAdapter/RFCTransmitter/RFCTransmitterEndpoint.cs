@@ -39,6 +39,7 @@ using Microsoft.Samples.BizTalk.Adapter.Common;
 using Microsoft.XLANGs.BaseTypes;
 using SAP.Middleware.Connector;
 using BizTalk.Adapter.RFC.Core;
+using System.Data.SqlClient;
 
 namespace Microsoft.Samples.BizTalk.Adapters.RFCTransmitter
 {
@@ -48,11 +49,11 @@ namespace Microsoft.Samples.BizTalk.Adapters.RFCTransmitter
     /// </summary>
     internal class RFCTransmitterEndpoint: AsyncTransmitterEndpoint
     {
-        private IBaseMessage    solicitMsg                    = null;
+        //private IBaseMessage    solicitMsg                    = null;
         private IBTTransportProxy    transportProxy                = null;
         private AsyncTransmitter    asyncTransmitter            = null;
         private string propertyNamespace;
-        private static int IO_BUFFER_SIZE = 4096;
+        private static int IO_BUFFER_SIZE = 8192;
 
         public RFCTransmitterEndpoint(AsyncTransmitter asyncTransmitter) : base(asyncTransmitter)
         {
@@ -72,19 +73,18 @@ namespace Microsoft.Samples.BizTalk.Adapters.RFCTransmitter
         /// </summary>
         public override IBaseMessage ProcessMessage(IBaseMessage message)
         {
-            this.solicitMsg = message;
-
+            //this.solicitMsg = message;
             RFCAdapterProperties props = new RFCAdapterProperties(message, this.propertyNamespace);
             IBaseMessage responseMsg = null;
             var outputmessagetype = string.Empty;
             if ( props.IsTwoWay )
             {
-                var response = SendRFCRequest(this.solicitMsg, props, out outputmessagetype);
+                var response = SendRFCRequest(message, props, out outputmessagetype);
                 responseMsg = BuildResponseMessage(response, outputmessagetype);
             }
             else
             {
-                var response = SendRFCRequest(this.solicitMsg, props, out outputmessagetype);
+                var response = SendRFCRequest(message, props, out outputmessagetype);
                 response.Close();
             }
 
@@ -107,7 +107,7 @@ namespace Microsoft.Samples.BizTalk.Adapters.RFCTransmitter
                 // stream will overflow to disc when it reaches a given threshold
                 VirtualStream vs = new VirtualStream();
                 int bytesRead = 0;
-                byte[] buff = new byte[8 * 1024];
+                byte[] buff = new byte[IO_BUFFER_SIZE];
                 while ((bytesRead = s.Read(buff, 0, buff.Length)) > 0)
                     vs.Write(buff, 0, bytesRead);
 
@@ -164,26 +164,33 @@ namespace Microsoft.Samples.BizTalk.Adapters.RFCTransmitter
 
             RfcDestination dest = RfcDestinationManager.GetDestination(rfc);
 
+            
             //AssemblySelector selector = new AssemblySelector(config.SchemaAssembly, config.RequestSchemaType);
             AssemblySelector selector = new AssemblySelector(config.RequestSchemaType);
             XmlDocument doc = new XmlDocument();
-            doc.Load(msg.BodyPart.Data);
-           
-
-            MessageDisassemblyV2 dis = new MessageDisassemblyV2(selector, dest);
+            //doc.Load(msg.BodyPart.Data);
+            using (XmlReader reader = XmlReader.Create(msg.BodyPart.Data))
+            {
+                doc.Load(reader);
+            }
+        
+            MessageDisassembly dis = new MessageDisassembly(selector, dest);
             var fun = dis.Disassemble(doc);
             var inputmsgtype = dis.GetMessageType();
             msg.Context.Write("MessageType", "http://schemas.microsoft.com/BizTalk/2003/system-properties", inputmsgtype);
             msg.Context.Promote("MessageType", "http://schemas.microsoft.com/BizTalk/2003/system-properties", inputmsgtype);
             //AssemblySelector outputselector = new AssemblySelector(config.SchemaAssembly, config.ReponseSchemaType);
             AssemblySelector outputselector = new AssemblySelector(config.ReponseSchemaType);
-
             MessageGenerator gen = new MessageGenerator(outputselector, fun);
             var stream = gen.CreateInstance();
             outputmessagetype = gen.GetMessageType();
-
-
+            stream.Position = 0;
             return stream;
         }
+
+     
     }
+
+
+   
 }

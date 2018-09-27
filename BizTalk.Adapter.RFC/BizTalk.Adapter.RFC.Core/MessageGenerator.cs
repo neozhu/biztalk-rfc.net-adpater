@@ -64,7 +64,7 @@ namespace BizTalk.Adapter.RFC.Core
         /// </summary>
         public Stream CreateInstance()
         {
-          
+         
             MemoryStream sb = new MemoryStream();
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
@@ -77,16 +77,17 @@ namespace BizTalk.Adapter.RFC.Core
                 _xmlType = string.Format("{1}#{0}", element.Name, this._schema.TargetNamespace);
                 _schemaType = string.Format("{1}#{0}", element.QualifiedName.Name, element.QualifiedName.Namespace);
 
-                Console.WriteLine("<{0}>", element.Name );
+                //Console.WriteLine("<{0}>", element.Name );
                 //root = xmlDocument.CreateElement(element.Name,ns);
                 xw.WriteStartElement("ns0",element.Name, _ns);
                 ReadElement(element,0, xw,  null);
                 xw.WriteEndElement();
-                Console.WriteLine("</{0}", element.Name);
+                //Console.WriteLine("</{0}", element.Name);
 
             }
             xw.Flush();
             //Console.Write(sb.ToString());
+            sb.Seek(0, SeekOrigin.Begin);
             return sb;
         }
         private IRfcDataContainer getPrevrfcdatastructure(string name, int level,int rowindex)
@@ -237,7 +238,7 @@ namespace BizTalk.Adapter.RFC.Core
                     {
                         Console.WriteLine("node " + fieldName + " no necessary display");
                     }
-                    Console.WriteLine("<{0}>{1}</{0}>", fieldName, fieldValue);
+                    //Console.WriteLine("<{0}>{1}</{0}>", fieldName, fieldValue);
                 }
             }
         }

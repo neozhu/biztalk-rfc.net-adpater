@@ -50,13 +50,13 @@ namespace Microsoft.Samples.BizTalk.Adapters.RFCTransmitter
                 ".NET RFC Transmit Adapter SDK Sample",
                 "RFC.NET",
                 new Guid("D5353BB1-BAE9-4de7-8362-F1160FAD3985"),
-                httpNamespace, typeof(RFCTransmitterEndpoint), 10)
+                httpNamespace, typeof(RFCTransmitterEndpoint), 30)
         {
         }
 
         protected override IBTTransmitterBatch CreateAsyncTransmitterBatch()
         {
-            return new RFCTransmitAdapterBatch(10, httpNamespace, TransportProxy, this);
+            return new RFCTransmitAdapterBatch(30, httpNamespace, TransportProxy, this);
         }
 
         public ConfigProperties CreateProperties(string uri)

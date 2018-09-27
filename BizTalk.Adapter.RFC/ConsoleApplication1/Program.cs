@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 using System.Windows;
+using System.Xml.Linq;
+
 namespace ConsoleApplication1
 {
     class Program
@@ -58,16 +60,16 @@ namespace ConsoleApplication1
 
 
 
-            rfc.Add(RfcConfigParameters.Name, "QTM");
-            rfc.Add(RfcConfigParameters.AppServerHost, "sapqtm01.feili.com");
-            rfc.Add(RfcConfigParameters.Client, "610");
+            rfc.Add(RfcConfigParameters.Name, "DTM");
+            rfc.Add(RfcConfigParameters.AppServerHost, "sapdtm01.feili.com");
+            rfc.Add(RfcConfigParameters.Client, "212");
             rfc.Add(RfcConfigParameters.User, "soapcall");
             rfc.Add(RfcConfigParameters.Password, "soapcall");
             rfc.Add(RfcConfigParameters.SystemNumber, "00");
             rfc.Add(RfcConfigParameters.Language, "ZH");
-            rfc.Add(RfcConfigParameters.PoolSize, "5");
-            rfc.Add(RfcConfigParameters.PeakConnectionsLimit, "10");
-            rfc.Add(RfcConfigParameters.ConnectionIdleTimeout, "500");
+            rfc.Add(RfcConfigParameters.PoolSize, "20");
+            rfc.Add(RfcConfigParameters.PeakConnectionsLimit, "1000");
+            rfc.Add(RfcConfigParameters.ConnectionIdleTimeout, "2000");
 
             //rfc.Add(RfcConfigParameters.Name, "PS4");
             //rfc.Add(RfcConfigParameters.AppServerHost, "ecc.feili.com");
@@ -81,18 +83,22 @@ namespace ConsoleApplication1
             //rfc.Add(RfcConfigParameters.ConnectionIdleTimeout, "500");
             RfcDestination dest = RfcDestinationManager.GetDestination(rfc);
 
-            AssemblySelector selector = new AssemblySelector("D:\\BizTalk.RFC.TM_CRM_701.dll", "BizTalk.RFC.TM_CRM_701.Schemas.INPUT.Z2FM_SQ_FWA_CREATE");
+            AssemblySelector selector = new AssemblySelector("D:\\BizTalk.RFC.szhjyy.Z2FM_GQ_UPDATE.dll", "BizTalk.RFC.szhjyy.Z2FM_GQ_UPDATE.Schemas.INPUT.Z2FM_GQ_UPDATE");
             XmlDocument doc = new XmlDocument();
-            doc.Load("d:\\701.xml");
+            doc.Load("d:\\22.xml");
+            for (int i = 0; i < 1000; i++)
+            {
+                //Console.WriteLine(i);
+                MessageDisassembly dis = new MessageDisassembly(selector, dest);
+                var fun = dis.Disassemble(doc);
+                AssemblySelector outputselector = new AssemblySelector("D:\\BizTalk.RFC.szhjyy.Z2FM_GQ_UPDATE.dll", "BizTalk.RFC.szhjyy.Z2FM_GQ_UPDATE.Schemas.OUTPUT.Z2FM_GQ_UPDATE_RES");
 
-            MessageDisassembly dis = new MessageDisassembly(selector, dest);
-            var fun = dis.Disassemble(doc);
-            AssemblySelector outputselector = new AssemblySelector("D:\\BizTalk.RFC.TM_CRM_701.dll", "BizTalk.RFC.TM_CRM_701.Schemas.OUTPUT.Z2FM_SQ_FWA_CREATE_RES");
-
-            MessageGenerator gen = new MessageGenerator(outputselector, fun);
-            var stream = gen.CreateInstance();
-
-            SaveMemoryStream(stream as MemoryStream, "d:\\output.xml");
+                MessageGenerator gen = new MessageGenerator(outputselector, fun);
+                var stream = gen.CreateInstance();
+                stream.Position = 0;
+                var xdoc = XDocument.Load(stream);
+                SaveMemoryStream(stream as MemoryStream, "d:\\output.xml");
+            }
         }
     }
 }
